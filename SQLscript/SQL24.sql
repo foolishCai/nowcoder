@@ -34,10 +34,13 @@ CREATE TABLE `salaries` (
 PRIMARY KEY (`emp_no`,`from_date`))
 ;
 
-select 
-from employees a 
-left join (select * from dept_manager where to_date='9999-01-01')b on a.emp_no=b.emp_no
-join dept_emp c on a.emp_no = 
-join salaries d on a.emp_no=d.salaries
-where b.emp_no is null 
+SELECT dept_emp.dept_no
+      ,dept_emp.emp_no
+      ,salary
+FROM salaries 
+JOIN dept_emp ON  dept_emp.emp_no=salaries.emp_no
+LEFT JOIN dept_manager ON dept_emp.emp_no=dept_manager.emp_no
+WHERE salaries.to_date='9999-01-01'
+  AND dept_emp.to_date='9999-01-01'
+  AND dept_manager.dept_no IS NULL
 ;
